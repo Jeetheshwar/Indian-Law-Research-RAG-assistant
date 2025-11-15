@@ -11,6 +11,7 @@ chromadb
 openai
 tiktoken
 huggingface-hub
+transformers>=4.30.0
 
 # Multi-agent framework
 langgraph
@@ -22,9 +23,8 @@ lxml
 markdown
 
 # Reranking and advanced retrieval
-sentence-transformers
-# Optional but recommended for reranker; comment out if installation is heavy
-# torch==2.3.0
+torch>=2.0.0
+sentence-transformers>=2.2.0
 rank-bm25
 
 # API and web
