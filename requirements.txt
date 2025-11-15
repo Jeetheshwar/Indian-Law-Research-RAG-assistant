@@ -1,0 +1,48 @@
+# Core LLM and RAG frameworks
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+
+# Vector database
+chromadb
+
+# Embeddings and models
+openai
+tiktoken
+huggingface-hub
+
+# Multi-agent framework
+langgraph
+
+# Document processing
+pypdf
+beautifulsoup4
+lxml
+markdown
+
+# Reranking and advanced retrieval
+sentence-transformers
+# Optional but recommended for reranker; comment out if installation is heavy
+# torch==2.3.0
+rank-bm25
+
+# API and web
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+streamlit
+
+# Utilities
+python-dotenv
+rich
+requests
+urllib3
+
+# Testing
+pytest
+pytest-asyncio
+
+# Windows compatibility
+colorama
