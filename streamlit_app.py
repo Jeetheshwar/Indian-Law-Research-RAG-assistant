@@ -38,6 +38,32 @@ st.markdown("""<style>
     }
 </style>""", unsafe_allow_html=True)
 
+# Check if data needs to be ingested
+from pathlib import Path
+
+data_dir = Path("./data/chroma_db")
+if not data_dir.exists() or not any(data_dir.iterdir()):
+    st.warning("⚠️ First-time setup: Downloading and processing legal documents...")
+    st.info("This will take 5-10 minutes. Please wait...")
+
+    with st.spinner("Running data ingestion..."):
+        try:
+            import subprocess
+            result = subprocess.run(
+                [sys.executable, "ingest.py"],
+                capture_output=True,
+                text=True,
+                timeout=600  # 10 minutes timeout
+            )
+            if result.returncode != 0:
+                st.error(f"Data ingestion failed: {result.stderr}")
+                st.stop()
+            st.success("✅ Data ingestion complete!")
+            st.rerun()
+        except Exception as e:
+            st.error(f"Failed to run data ingestion: {str(e)}")
+            st.stop()
+
 # Initialize session state
 if 'orchestrator' not in st.session_state:
     with st.spinner("Initializing system..."):
