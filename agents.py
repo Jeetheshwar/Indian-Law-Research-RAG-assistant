@@ -10,6 +10,7 @@ from retrieval import ContextualRetriever
 from vector_store import LegalVectorStore
 from config import get_settings
 from huggingface_llm import HuggingFaceChatModel
+from groq_llm import GroqChatModel
 import json
 
 
@@ -65,8 +66,17 @@ class AnalysisAgent:
     def __init__(self):
         self.settings = get_settings()
 
+        # Use Groq LLM if GROQ_API_KEY is configured
+        if self.settings.groq_api_key:
+            print(f"[INFO] Using Groq API with model: {self.settings.llm_model}")
+            self.llm = GroqChatModel(
+                model=self.settings.llm_model,
+                api_key=self.settings.groq_api_key,
+                temperature=self.settings.agent_temperature,
+                max_tokens=4096
+            )
         # Use HuggingFace LLM if HF_TOKEN is configured
-        if self.settings.hf_token:
+        elif self.settings.hf_token:
             print(f"[INFO] Using HuggingFace Inference Client with model: {self.settings.llm_model}")
             self.llm = HuggingFaceChatModel(
                 model=self.settings.llm_model,
@@ -176,8 +186,17 @@ class ResponseAgent:
     def __init__(self):
         self.settings = get_settings()
 
+        # Use Groq LLM if GROQ_API_KEY is configured
+        if self.settings.groq_api_key:
+            print(f"[INFO] Using Groq API with model: {self.settings.llm_model}")
+            self.llm = GroqChatModel(
+                model=self.settings.llm_model,
+                api_key=self.settings.groq_api_key,
+                temperature=self.settings.temperature,
+                max_tokens=4096
+            )
         # Use HuggingFace LLM if HF_TOKEN is configured
-        if self.settings.hf_token:
+        elif self.settings.hf_token:
             print(f"[INFO] Using HuggingFace Inference Client with model: {self.settings.llm_model}")
             self.llm = HuggingFaceChatModel(
                 model=self.settings.llm_model,

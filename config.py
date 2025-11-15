@@ -8,6 +8,9 @@ import os
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
+    # Groq Configuration
+    groq_api_key: Optional[str] = None  # Groq API token
+
     # OpenAI Configuration (or OpenAI-compatible API like Kimi)
     openai_api_key: Optional[str] = None
     openai_api_base: Optional[str] = None  # For OpenAI-compatible APIs like Kimi

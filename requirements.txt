@@ -13,6 +13,7 @@ openai
 tiktoken
 huggingface-hub
 transformers>=4.30.0
+groq
 
 # Multi-agent framework
 langgraph
