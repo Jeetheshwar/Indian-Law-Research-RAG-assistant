@@ -25,6 +25,7 @@ markdown
 
 # Reranking and advanced retrieval
 torch>=2.0.0
+torchvision>=0.24.0
 sentence-transformers>=2.2.0
 rank-bm25
 
