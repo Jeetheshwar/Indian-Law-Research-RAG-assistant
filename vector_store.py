@@ -19,9 +19,17 @@ class LegalVectorStore:
         self.persist_directory = persist_directory or self.settings.chroma_persist_dir
 
         # Initialize embeddings
-        # Use local HuggingFace embeddings for free alternative to OpenAI
-        if self.settings.openai_api_base:
-            # Using Kimi K2 or other OpenAI-compatible API - use local embeddings
+        # Always use local HuggingFace embeddings (free and works everywhere)
+        # Only use OpenAI embeddings if we have a real OpenAI API key
+        if self.settings.openai_api_key and self.settings.openai_api_key != "dummy" and not self.settings.openai_api_base:
+            # Using real OpenAI API - use OpenAI embeddings
+            print(f"[INFO] Using OpenAI embeddings ({self.settings.embedding_model})")
+            self.embeddings = OpenAIEmbeddings(
+                model=self.settings.embedding_model,
+                openai_api_key=self.settings.openai_api_key
+            )
+        else:
+            # Using Groq/HuggingFace/local - use local embeddings
             print("[INFO] Using local HuggingFace embeddings (all-MiniLM-L6-v2)")
             self.embeddings = HuggingFaceEmbeddings(
                 model_name="sentence-transformers/all-MiniLM-L6-v2",
@@ -34,13 +42,6 @@ class LegalVectorStore:
                     'batch_size': 32
                 },
                 show_progress=False
-            )
-        else:
-            # Using OpenAI API - use OpenAI embeddings
-            print(f"[INFO] Using OpenAI embeddings ({self.settings.embedding_model})")
-            self.embeddings = OpenAIEmbeddings(
-                model=self.settings.embedding_model,
-                openai_api_key=self.settings.openai_api_key
             )
         
         # Initialize ChromaDB client
