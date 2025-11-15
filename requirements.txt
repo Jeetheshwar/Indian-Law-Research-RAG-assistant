@@ -3,6 +3,7 @@ langchain
 langchain-community
 langchain-openai
 langchain-chroma
+langchain-huggingface
 
 # Vector database
 chromadb
