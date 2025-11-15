@@ -18,25 +18,21 @@
 In the **Advanced settings** → **Secrets** section, add the following:
 
 ```toml
-# Groq API Configuration
+# Groq API Configuration (REQUIRED)
 GROQ_API_KEY = "your_groq_api_key_here"
 
-# Model Configuration
+# Model Configuration (REQUIRED)
 LLM_MODEL = "moonshotai/kimi-k2-instruct-0905"
-TEMPERATURE = "0.1"
 
-# OpenAI Configuration (dummy values for local embeddings)
-OPENAI_API_BASE = "dummy"
-OPENAI_API_KEY = "dummy"
-
-# Vector Database
-CHROMA_PERSIST_DIR = "./data/chroma_db"
-
-# Application Settings
-MAX_RETRIEVAL_DOCUMENTS = "10"
-CHUNK_SIZE = "1000"
-CHUNK_OVERLAP = "200"
+# Optional: Override default settings
+# TEMPERATURE = "0.1"
+# CHROMA_PERSIST_DIR = "./data/chroma_db"
+# MAX_RETRIEVAL_DOCUMENTS = "10"
+# CHUNK_SIZE = "1000"
+# CHUNK_OVERLAP = "200"
 ```
+
+**Note:** You do NOT need to set `OPENAI_API_KEY` or `OPENAI_API_BASE`. The app automatically uses free local HuggingFace embeddings when OpenAI credentials are not provided.
 
 ### 3. Deploy
 
@@ -54,6 +50,10 @@ Click **"Deploy!"** and wait for the app to build and start.
 ### Optional Settings
 
 All other settings have defaults in the code, but you can override them in secrets.
+
+### Embeddings
+
+The app automatically uses **free local HuggingFace embeddings** (`all-MiniLM-L6-v2`). You don't need to configure anything for embeddings - they work out of the box!
 
 ---
 
