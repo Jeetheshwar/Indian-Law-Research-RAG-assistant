@@ -7,9 +7,19 @@ import streamlit as st
 import sys
 from pathlib import Path
 import traceback
+import os
 
 # Add the current directory to the path
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Load Streamlit secrets into environment variables (for Streamlit Cloud)
+try:
+    if hasattr(st, 'secrets') and len(st.secrets) > 0:
+        for key, value in st.secrets.items():
+            os.environ[key] = str(value)
+except Exception:
+    # No secrets file locally - will use .env file instead
+    pass
 
 from agents import LegalMultiAgentSystem
 from vector_store import LegalVectorStore
@@ -49,11 +59,13 @@ if not data_dir.exists() or not any(data_dir.iterdir()):
     with st.spinner("Running data ingestion..."):
         try:
             import subprocess
+            # Pass current environment (including Streamlit secrets) to subprocess
             result = subprocess.run(
                 [sys.executable, "ingest.py"],
                 capture_output=True,
                 text=True,
-                timeout=600  # 10 minutes timeout
+                timeout=600,  # 10 minutes timeout
+                env=os.environ.copy()  # Pass environment variables to subprocess
             )
             if result.returncode != 0:
                 st.error(f"Data ingestion failed: {result.stderr}")
